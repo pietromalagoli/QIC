@@ -1,7 +1,22 @@
-!> --------------------------------------------------------------
+!>===============================================================
 !>-----------SUBROUTINE FOR MATRIX MULTIPLICATION----------------
 !>---------------------------------------------------------------
-
+!>      This subroutine implements matrix multiplication
+!>      in three different fashions: row-major order,
+!>      column-major order and using the intrinsic 
+!>      function matmul implemented in Fortran.
+!>  -------------------------------------------------------------
+!>
+!>  matrix_mult(m1, m2, m3, mode)
+!>
+!>
+!>          Inputs | m1, m2, m3 (non-negative integer) Dimensions
+!>                  of the matrices
+!>                 | mode (string) Mode of matrix multiplication
+!>
+!>         Outputs | C (real) Result of the matrix multiplication
+!>
+!>===============================================================
 subroutine matrix_mult(m1, m2, m3, mode)
     use debugger !< debugger module
 
@@ -126,8 +141,27 @@ subroutine matrix_mult(m1, m2, m3, mode)
 
     end if
 
+    !> Check the result of the matrix multiplication through the intrinsic function matmul
+
+    if (all(C == matmul(A, B))) then !< check if the result is correct (Note: you need to use the 
+                                     !> all() function to compare arrays)
+                                     !> Note: this is a viable check for the correcteness of the result
+                                     !> for small matrices, but for large matrices, one should use a tolerance.
+
+        call checkpoint(debug = .TRUE., verb = 2, msg = 'The result is correct')
+    else
+        call checkpoint(debug = .TRUE., verb = 2, msg = 'The result is incorrect')
+    end if
+
 end subroutine matrix_mult
 
+
+!>===============================================================
+!>---------------------MAIN PROGRAM------------------------------
+!>---------------------------------------------------------------
+!>      This program tests the checkpoint function and the
+!>      matrix multiplication subroutine.
+!>===============================================================
 program main
     use debugger
 
