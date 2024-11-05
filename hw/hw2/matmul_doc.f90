@@ -164,8 +164,9 @@ end subroutine matrix_mult
 !>===============================================================
 program main
     use debugger
-
-    implicit none
+    use c_mat
+    type(c_matrix) :: A, C
+    complex*8 :: x
 
     !> test messages
     call checkpoint(debug = .TRUE., verb = 2, msg = 'Debug mode is on')
@@ -177,6 +178,31 @@ program main
     call matrix_mult(100, 100, 100, "row")
     call matrix_mult(100, 100, 100, "column")
     call matrix_mult(100, 100, 100, "intrinsic")
+
+    !> test the complex matrix module
+    !> ---------------------------------
+    !> TEST INITIALIZATION
+    !> ---------------------------------
+    call c_mat_init(A, (/10, 10/)) ! square matrix
+    if (size(A%elem, 1) /= 10 .or. size(A%elem, 2) /= 10) then !< check if the dimensions are valid
+        call checkpoint(debug = .TRUE., verb = 2, msg = 'Invalid dimensions of A')
+        return
+    end if
+
+    !> ---------------------------------
+    !> MATH OPERATIONS
+    !> ---------------------------------
+    !> testing Trace (square matrix only)
+    x = .Tr.A
+    !> testing Adjoint
+    C = .Adj.A
+   
+    !> ---------------------------------
+    !> I/O
+    !> ---------------------------------
+    !> writing adjointed matrix to file
+    call c_mat_write(C, './adj.txt')
+    print *, "The adjoint matrix was written to file."
 
 end program
 
