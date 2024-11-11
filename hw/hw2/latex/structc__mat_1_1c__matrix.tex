@@ -1,0 +1,43 @@
+\hypertarget{structc__mat_1_1c__matrix}{}\doxysection{c\+\_\+mat\+::c\+\_\+matrix Type Reference}
+\label{structc__mat_1_1c__matrix}\index{c\_mat::c\_matrix@{c\_mat::c\_matrix}}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structc__mat_1_1c__matrix_a66442276f30f652327c1d52c1706e168}\label{structc__mat_1_1c__matrix_a66442276f30f652327c1d52c1706e168}} 
+integer, dimension(2) \mbox{\hyperlink{structc__mat_1_1c__matrix_a66442276f30f652327c1d52c1706e168}{size}}
+\begin{DoxyCompactList}\small\item\em store the matrix dimension in a double integer \end{DoxyCompactList}\item 
+complex $\ast$8, dimension(\+:,\+:), allocatable \mbox{\hyperlink{structc__mat_1_1c__matrix_a883ddce96c82a5e443b5dc74d0ed432c}{elem}}
+\begin{DoxyCompactList}\small\item\em store the matrix elements in 8 byte complex numbers \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\hypertarget{structc__mat_1_1c__matrix_autotoc_md0}{}\doxysubsubsection{===============================================================}\label{structc__mat_1_1c__matrix_autotoc_md0}
+This module defines a new type, designed to handle matrices. It contains the necessaries variables, the methods for retriving the trace and the adjoint and to initiaòize the matrix. Lastly, it writes the \hypertarget{structc__mat_1_1c__matrix_autotoc_md1}{}\doxysubsubsection{matrix on a file in a readable format.}\label{structc__mat_1_1c__matrix_autotoc_md1}
+FUNCTIONS AND SUBROUTINES\+: ~\newline
+
+\begin{DoxyItemize}
+\item cmat\+\_\+trace\+: returns the trace of a square matrix Inputs\+: cmat\+: a matrix Outputs\+: trace\+: the trace of the matrix
+\item c\+\_\+mat\+\_\+adj\+: returns the adjoint of a matrix Inputs\+: cmat\+: a matrix Outputs\+: adj\+: the adjoint of the matrix
+\item c\+\_\+mat\+\_\+init\+: initializes a matrix Inputs\+: cmat\+: a matrix size\+: the size of the matrix
+\item c\+\_\+mat\+\_\+write\+: writes a matrix to a file Inputs\+: cmat\+: a matrix filename\+: the name of the file
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structc__mat_1_1c__matrix_a883ddce96c82a5e443b5dc74d0ed432c}\label{structc__mat_1_1c__matrix_a883ddce96c82a5e443b5dc74d0ed432c}} 
+\index{c\_mat::c\_matrix@{c\_mat::c\_matrix}!elem@{elem}}
+\index{elem@{elem}!c\_mat::c\_matrix@{c\_mat::c\_matrix}}
+\doxysubsubsection{\texorpdfstring{elem}{elem}}
+{\footnotesize\ttfamily complex$\ast$8, dimension(\+:,\+:), allocatable c\+\_\+mat\+::c\+\_\+matrix\+::elem}
+
+
+
+store the matrix elements in 8 byte complex numbers 
+
+the allocatable attribute is used to declare arrays whose size can be determined during runtime rather than at compile time 
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+c\+\_\+mat.\+f90\end{DoxyCompactItemize}

@@ -20,9 +20,10 @@ module debugger
     
     
 contains
-    subroutine checkpoint(debug, verb, msg)
+    subroutine checkpoint(debug, verb, msg, var)
         logical, intent(in) :: debug
         integer, intent(in) :: verb
+        real, intent(in), optional :: var
 
         !> optional arguments
         !> character(len=*) is used to tell to the compiler that the length of the variable msg is not fixed
@@ -37,6 +38,14 @@ contains
                     print *, "Checkpoint"
                     if (present(msg)) then
                         print *, msg
+                    end if
+                case (3)
+                    print *, "Checkpoint"
+                    if (present(msg)) then
+                        print *, msg
+                    end if
+                    if (present(var)) then
+                        print *, var
                     end if
                 case default
                     print *, "Checkpoint"
