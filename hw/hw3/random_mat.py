@@ -38,37 +38,52 @@ def real_diag(N):
     
     return D
 
-def spacingH(H, trim=True):
-    
-    # Compute and order the eigenvalues
-    eigvals = np.linalg.eigvalsh(H) # Returns the eigenvalues already in ascending order
-    
-    if trim:
-        eigvals = eigvals[:eigvals.shape[0] - 1]
+def spacingH(N, N_matrices, trim=True):
     
     spacing = []
-    for i in range(eigvals.shape[0] - 1):       # - 1 otherwise index out-of-bounds
-        s = eigvals[i+1] - eigvals[i]
-        spacing.append(s)
+    
+    for mat in range(N_matrices):
+        # Generate the matrix
+        H = gen_herm(N)
+        
+        # Compute and order the eigenvalues
+        eigvals = np.linalg.eigvalsh(H) # Returns the eigenvalues already in ascending order
+        
+        if trim:
+            eigvals = eigvals[:eigvals.shape[0] - 1]
+        
+        spacing_temp = []
+        for i in range(eigvals.shape[0] - 1):       # - 1 otherwise index out-of-bounds
+            s = eigvals[i+1] - eigvals[i]
+            spacing_temp.append(s)
+        
+        spacing.extend(spacing_temp)
     
     spacing_norm = spacing / np.max(spacing)
     
     return spacing_norm, eigvals
     
-def spacingD(D, trim=True):
-    
-    # Compute and order the eigenvalues
-    eigvals = np.linalg.eigvals(D) # Returns the eigenvalues already in ascending order
-    eigvals = np.sort(eigvals)
-    
-    if trim:
-        eigvals = eigvals[:eigvals.shape[0] - 1]
+def spacingD(N, N_matrices, trim=True):
     
     spacing = []
-    for i in range(eigvals.shape[0] - 1):       # - 1 otherwise index out-of-bounds
-        s = eigvals[i+1] - eigvals[i]
-        spacing.append(s)
     
+    for mat in range(N_matrices):
+        # Generate the matrix
+        D = gen_herm(N)
+        # Compute and order the eigenvalues
+        eigvals = np.linalg.eigvals(D) # Returns the eigenvalues already in ascending order
+        eigvals = np.sort(eigvals)
+        
+        if trim:
+            eigvals = eigvals[:eigvals.shape[0] - 1]
+        
+        spacing_temp = []
+        for i in range(eigvals.shape[0] - 1):       # - 1 otherwise index out-of-bounds
+            s = eigvals[i+1] - eigvals[i]
+            spacing_temp.append(s)
+
+        spacing.extend(spacing_temp)
+        
     spacing_norm = spacing / np.max(spacing)
     
     return spacing_norm, eigvals
@@ -114,10 +129,10 @@ def fitnplot(data, func, n_bins, mode, p0=[1,1,-1,1]):
     bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
 
     # Normalize counts
-    #counts_norm = counts / counts.sum()
+    counts_norm = counts / counts.sum()
     
     # Fit with the given function
-    params, params_cov = curve_fit(func, bin_centers, counts, p0=p0, maxfev=1000) # Pay attention to correctly initilialize the parameters (p0)
+    params, params_cov = curve_fit(func, bin_centers, counts_norm, p0=p0, maxfev=1000) # Pay attention to correctly initilialize the parameters (p0)
 
     # Print the best parameters
     print('BEST PARAMETERS retrieved from the fit:\n')
@@ -129,7 +144,7 @@ def fitnplot(data, func, n_bins, mode, p0=[1,1,-1,1]):
     
     # Plotting
     plt.figure(figsize=(8, 6))
-    plt.bar(bin_centers, counts, width=(bin_edges[1] - bin_edges[0]), color='orange', edgecolor='orange', alpha=0.7, label='Data')
+    plt.bar(bin_centers, counts_norm, width=(bin_edges[1] - bin_edges[0]), color='orange', edgecolor='orange', alpha=0.7, label='Data')
     plt.plot(s_vals, func(s_vals, params[0], params[1], params[2], params[3]), color='red', label='Fit')
     plt.text(0.9, 0.7, f'a: {params[0]:.2f}\nalpha: {params[1]:.2f}\nb: {params[2]:.2f}\nbeta: {params[3]:.2f}', horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes, bbox=dict(facecolor='white', alpha=0.5)) # add a box for the parameters
     plt.xlabel('Spacing (normalized)')
@@ -146,17 +161,20 @@ def fitnplot(data, func, n_bins, mode, p0=[1,1,-1,1]):
 # Size
 N = 1000
 
+# Number of matrices to generate
+N_matrices = 30
+
 # Set the seed
 #np.random.seed(12345)
 np.random.seed(11111)
 
 #  Full random hermitian matrix
-data_h, eig_r = spacingH(gen_herm(N))
+data_h, eig_r = spacingH(N, N_matrices)
 #print(data_h)
 #print(eig_r)
 
 # Diagonal real random matrix
-data_d, eig_d = spacingD(real_diag(N))
+data_d, eig_d = spacingD(N, N_matrices)
 #print(data_d)
 #print(eig_d)
 
