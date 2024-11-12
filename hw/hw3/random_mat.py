@@ -59,7 +59,7 @@ def spacingH(N, N_matrices, trim=True):
         
         spacing.extend(spacing_temp)
     
-    spacing_norm = spacing / np.max(spacing)
+    spacing_norm = spacing / np.mean(spacing)
     
     return spacing_norm, eigvals
     
@@ -84,7 +84,7 @@ def spacingD(N, N_matrices, trim=True):
 
         spacing.extend(spacing_temp)
         
-    spacing_norm = spacing / np.max(spacing)
+    spacing_norm = spacing / np.mean(spacing)
     
     return spacing_norm, eigvals
     
