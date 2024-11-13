@@ -8,7 +8,7 @@
 # IMPORTS
 import numpy as np
 import matplotlib.pyplot as plt
-import script
+from scipy.stats import linregress
 
 # FUNCTIONS
 
@@ -44,25 +44,50 @@ def plot_timing(file_name):
     # Fit a quadratic function (degree 3 polynomial)
     fit_coeffs = np.polyfit(n_values, timing_values, deg=3)
     fit_fn = np.poly1d(fit_coeffs)  # Create a function based on the fit
-
+    
     # Plot the data
     plt.scatter(n_values, timing_values, color='r', label='Data')
     plt.plot(n_values, fit_fn(n_values), color='lightblue', label='Fit (3rd degree)')
-    #plt.xscale('log')
-    #plt.yscale('log')
+    
+    '''
+    ##
+    # Perform linear regression on each data set
+    slope_cr, intercept_cr, _, _, stderr_cr = linregress(np.log(n_values), np.log(timing_values))
+
+    # Compute the fitted lines
+    fitted_cr = np.exp(intercept_cr) * n_values ** slope_cr
+
+    # Plot the original data and fitted lines
+    plt.figure(figsize=(10, 6))
+
+    # Original data
+    plt.loglog(n_values, timing_values, 'ro', label='Row-by-Column')
+
+    # Fitted lines with error bars for slope
+    plt.loglog(n_values, fitted_cr, 'r--', label=f'Fit RC: slope={slope_cr:.2f} ± {stderr_cr:.2f}')
+    '''
     plt.xlabel('Size (N)')
     plt.ylabel('Computation time (s)')
     plt.legend()
     plt.grid()
     
     if file_name == 'Data/columnbyrow.txt':
+        # Plot the data
+        '''
+        plt.scatter(n_values, timing_values, color='r', label='CR')
+        plt.plot(n_values, fit_fn(n_values), color='r', linestyle='--', label='Fit')
+        '''
         plt.title('Column-by-row')
-        
         # Save to file 
         plt.savefig('Data/columnbyrow.png')
         
         plt.show()
     elif file_name == 'Data/rowbycolumn.txt':
+        # Plot the data
+        '''
+        plt.scatter(n_values, timing_values, color='b', label='RC')
+        plt.plot(n_values, fit_fn(n_values), color='b', linestyle='--', label='Fit')
+        '''
         plt.title('Row-by-column')
         
         # Save to file 
@@ -70,17 +95,22 @@ def plot_timing(file_name):
         
         plt.show()
     elif file_name == 'Data/intrinsic.txt':
+        # Plot the data
+        '''
+        plt.scatter(n_values, timing_values, color='g', label='I')
+        plt.plot(n_values, fit_fn(n_values), color='g', linestyle='--', label='Fit')
+        '''
         plt.title('Intrinsic method (matmul())')
-        
         # Save to file 
         plt.savefig('Data/intrinsic')
         
         plt.show()
     else:
         print('Input file not recognized. Supported input files are: columnbyrow.txt, rowbycolumn.txt, instrinsic.txt.')
-        exit(1)
     
-     
+    # Save to file 
+    #plt.savefig('Data/matmul.png')
+        
 # EXECUTION
 
 # Define the input files

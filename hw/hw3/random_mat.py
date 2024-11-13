@@ -69,7 +69,7 @@ def spacingD(N, N_matrices, trim=True):
     
     for mat in range(N_matrices):
         # Generate the matrix
-        D = gen_herm(N)
+        D = real_diag(N)
         # Compute and order the eigenvalues
         eigvals = np.linalg.eigvals(D) # Returns the eigenvalues already in ascending order
         eigvals = np.sort(eigvals)
@@ -110,7 +110,7 @@ def wigner(s, a, alpha, b, beta):
     
     return a * (s ** alpha) * np.exp(exponent)
 
-def fitnplot(data, func, n_bins, mode, p0=[1,1,-1,1]):
+def fitnplot(data, func, n_bins, mode, p0=[1,1,-1,1], N=1000, N_matrices=30):
     
     # Check for the right mode being input
     if mode != 'Hermitian' and mode != 'Diagonal':
@@ -149,7 +149,7 @@ def fitnplot(data, func, n_bins, mode, p0=[1,1,-1,1]):
     plt.text(0.9, 0.7, f'a: {params[0]:.2f}\nalpha: {params[1]:.2f}\nb: {params[2]:.2f}\nbeta: {params[3]:.2f}', horizontalalignment='center', verticalalignment='center', transform=plt.gca().transAxes, bbox=dict(facecolor='white', alpha=0.5)) # add a box for the parameters
     plt.xlabel('Spacing (normalized)')
     plt.ylabel('N events')
-    plt.title(f'Eigenvalue spacing distribution ({mode})')
+    plt.title(f'Eigenvalue spacing distribution ({mode}; N={N}, N_matrices={N_matrices})')
     plt.legend()
     plt.grid()
 
@@ -165,8 +165,8 @@ N = 1000
 N_matrices = 30
 
 # Set the seed
-#np.random.seed(12345)
-np.random.seed(11111)
+np.random.seed(12345)
+#np.random.seed(11111)
 
 #  Full random hermitian matrix
 data_h, eig_r = spacingH(N, N_matrices)
