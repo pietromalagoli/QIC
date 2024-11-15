@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.linalg import eigh_tridiagonal
 from typing import Union
+import os
 
 # VISUAL OPTIONS
 # print options for only 2 decimals
@@ -130,23 +131,46 @@ def E_psi(K: np.array,V: np.array, k: int):
             off_diag[i] = S[i,i+1]
     
     # eigh_tridiagonal()'s select= and select_range= options let you compute up to the k-th eigenvalue (and eigenvectors)
-    eigvals, eigvec = eigh_tridiagonal(diag, off_diag, eigvals_only=False, select='i', select_range=(0,k))
+    eigvals, eigvec = eigh_tridiagonal(diag, off_diag, eigvals_only=False, select='i', select_range=(0,k-1))    # (0,k-1) because I'm asking to compue the first k eigenvalues and also the zero-th has to be counted
     
     return eigvals, eigvec
 
-#def plot_eig(eigvals, eigvecs, a, b):
+def plot_eig(eigvecs, a, b, N):
     ##  This function plots the eigenvalues and eigenvectors of the 1D harmonic oscillator.
     
+    # TO DO!! PLOT EIGENVALS!!!
     
+    # Extract k_max
+    k_max = eigvecs.shape[1]
+    
+    # Define the spatial steps
+    x_vals = np.linspace(a, b, N)
+    
+    for k in range(k_max-1):
+        plt.plot(x_vals, eigvecs[:, k], label=f'k={k}', alpha=0.7, color=plt.cm.tab10(k % 10))
+    
+    #plt.legend()
+    plt.grid()     
+    plt.title('Eigenfunctions')
+    plt.xlabel('X')
+    plt.ylabel('|Ψk(x)⟩')
+    plt.text(0.9,0.8,f'a={a}\nb={b}')
+    
+    if not os.path.exists('Results'):
+        os.makedirs('Results')
+        
+    plt.savefig(f'Results/eigenfunctions_k={k_max}.png')
+    #plt.show()
+    print('File succesfully saved to ./Results.')
 
 ## TEST
 
 # Define the interval [a,b] and the space discretization Deltax = (b - a) / N
-a = 0 
-b = 1
-N = 10
-omega = 2
-k = 5           # number of eigenvalues and eigenvetors to be computed
+a = -10 
+b = 10
+N = 100
+omega = 0.5
+k = 10           # number of eigenvalues and eigenvetors to be computed
 
 K = K(a,b,N)
 V = V(a,b,N,omega)
@@ -154,8 +178,11 @@ V = V(a,b,N,omega)
 print(K)
 print(V)  
 
-eigvals, eigevecs = E_psi(K,V,k)
+eigvals, eigvecs = E_psi(K,V,k)
 print(eigvals)
-print(eigevecs)
+print(eigvecs)
+print(eigvecs[:,0])
+print(eigvecs.shape[1])
 
-plot_eig(eigvals, eigevecs, a, b)
+
+plot_eig(eigvecs, a, b, N)
