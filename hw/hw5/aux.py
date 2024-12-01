@@ -72,5 +72,5 @@ def check_normalization_wfc(wfc: np.array, momentum_space: bool=False, dk: float
         
     if not np.isclose(norm, 1.0, atol=1e-6):
 
-        checkpoint(debug=True, verb=2, msg=f'Variable not normalized. Norm={np.linalg.norm(wfc)}', stop=True)     
+        checkpoint(debug=True, verb=2, msg=f'Variable not normalized. Norm={norm}', stop=True)     
             
