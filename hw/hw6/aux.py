@@ -11,7 +11,7 @@ def checkpoint(debug: bool=False, verb: int=1, msg: str=None, var=None, stop: bo
 
     Args:
         debug (bool, optional): sets the debug mode. Defaults to False.
-        verb (int, optional): level of verbosity. Defaults to 1.
+        verb (int, optional): level of verbosity. Defaults to 1. Possible values: (1,2,3, int).
         msg (str, optional): optional message to print. Defaults to None.
         var (_type_, optional): optional variable to print. Defaults to None.
         stop (bool, optional): determines if the execution is stopped after the checkpoint. Defaults to False.
@@ -21,7 +21,6 @@ def checkpoint(debug: bool=False, verb: int=1, msg: str=None, var=None, stop: bo
     """
     
     if debug:
-        # Case 1
         if verb == 1:
             print('Checkpoint')
         elif verb == 2:
@@ -43,7 +42,7 @@ def checkpoint(debug: bool=False, verb: int=1, msg: str=None, var=None, stop: bo
 
 
 def check_normalization_wfc(wfc: np.array, x, stop=False):
-    """This function checks if a wavefunction is normalized.
+    """This function checks if a wavefunction of a 1D harmonic oscillator is normalized.
 
     Args:
         wfc (np.array): wavefunction.
