@@ -13,7 +13,7 @@ def checkpoint(debug: bool=False, verb: int=1, msg: str=None, var=None, stop: bo
         debug (bool, optional): sets the debug mode. Defaults to False.
         verb (int, optional): level of verbosity. Defaults to 1. Possible values: (1,2,3, int).
         msg (str, optional): optional message to print. Defaults to None.
-        var (_type_, optional): optional variable to print. Defaults to None.
+        var (Any, optional): optional variable to print. Defaults to None.
         stop (bool, optional): determines if the execution is stopped after the checkpoint. Defaults to False.
 
     Raises:
