@@ -12,8 +12,8 @@ def checkpoint(debug: bool=False, verb: int=1, msg: str=None, var=None, stop: bo
     Args:
         debug (bool, optional): sets the debug mode. Defaults to False.
         verb (int, optional): level of verbosity. Defaults to 1. Possible values: (1,2,3, int).
-        msg (str, optional): optional message to print. Defaults to None.
-        var (Any, optional): optional variable to print. Defaults to None.
+        msg (str, optional): optional message to print. Printed if verb != 1 or if stop=True. Defaults to None.
+        var (Any, optional): optional variable to print. Printed if verb = 3. Defaults to None.
         stop (bool, optional): determines if the execution is stopped after the checkpoint. Defaults to False.
 
     Raises:
