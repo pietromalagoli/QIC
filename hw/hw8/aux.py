@@ -110,3 +110,15 @@ def pauli_matrices():
     sigma_y = np.array([[0, -1j], [1j, 0]], dtype=complex)
     sigma_z = np.array([[1, 0], [0, -1]], dtype=complex)
     return sigma_x, sigma_y, sigma_z
+
+
+def mean_field(l_vals):
+  val = {}
+  
+  for l in l_vals:
+    if abs(l) <= 2:
+      val[l] = - 1 - (l**2) / 4
+    else:
+      val[l] = - abs(l)
+      
+  return val
